@@ -35,6 +35,7 @@ public class BiteAttack : MonoBehaviour
             enemy.transform.position = bitePoint.transform.position;
             enemy.gameObject.SetActive(true);
             enemy.attachedRigidbody.velocity = Vector2.right * spitLaunchSpeed;
+            enemy = null;
         }
 
     }
