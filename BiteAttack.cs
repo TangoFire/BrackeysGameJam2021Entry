@@ -17,7 +17,10 @@ public class BiteAttack : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            Eat();
+            if (enemy == null)
+            {
+                Eat();
+            }
         }
         if (Input.GetMouseButtonDown(1))
         {
@@ -34,6 +37,7 @@ public class BiteAttack : MonoBehaviour
             Debug.Log("Spitting out " + enemy);
             enemy.transform.position = bitePoint.transform.position;
             enemy.gameObject.SetActive(true);
+           
             enemy.attachedRigidbody.velocity = Vector2.right * spitLaunchSpeed;
             enemy = null;
         }
@@ -52,6 +56,7 @@ public class BiteAttack : MonoBehaviour
            
           
         }
+        
 
        
     }

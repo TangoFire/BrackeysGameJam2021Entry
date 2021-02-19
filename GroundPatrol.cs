@@ -4,40 +4,46 @@ using UnityEngine;
 
 public class GroundPatrol : MonoBehaviour
 {
-    public float moveSpeed = 5f;
-    public float groundInfoRayLength = 2f;
+    public float moveSpeed = 3f;
+    public float rayCastDistance = 2f;
+    public Rigidbody2D rb;
     private bool movingRight = true;
     public Transform groundDetection;
-    public Rigidbody2D rb;
+    public LayerMask terrainLayer;
 
-
-    // Update is called once per frame
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        
+        GetComponent<SpriteRenderer>();
     }
-  
-    
-     void FixedUpdate()
+   
+
+    private void FixedUpdate()
     {
-        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, groundInfoRayLength);
-        Debug.Log(groundInfo.collider.name);
+        rb.velocity = new Vector2(moveSpeed, 0);
 
-        if (groundInfo.collider.name == "TerrainBlock")
-        {
-            Vector2 direction = Vector2.right.normalized;
-            Vector2 velocity = direction * moveSpeed;
-            Vector2 movement = velocity * Time.fixedDeltaTime;
-
-            rb.MovePosition((Vector2)transform.position + movement);
-            Debug.Log("Moving Right");
-        }
+        RaycastHit2D groundInfo = Physics2D.Raycast(groundDetection.position, Vector2.down, rayCastDistance, terrainLayer);
 
         if (groundInfo.collider == false)
         {
 
-        }
-    }
+            if (movingRight)
+            {
+                Debug.Log("at Right Edge");
+              
+                gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                moveSpeed = -3;
+                movingRight = false;
+            }
+            else if (movingRight == false)
 
+            {
+                Debug.Log("at Left Edge");
+                gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                moveSpeed = 3;
+                movingRight = true;
+            }
+        }
+
+    }
 }
