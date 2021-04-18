@@ -14,7 +14,7 @@ public class GroundPatrol : MonoBehaviour
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        GetComponent<SpriteRenderer>();
+  
     }
    
 
