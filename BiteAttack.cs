@@ -51,6 +51,7 @@ public class BiteAttack : MonoBehaviour
             enemy.transform.position = bitePoint.transform.position;
             enemy.gameObject.SetActive(true);     
             enemy.gameObject.GetComponent<BoxCollider2D>().enabled = false;
+            enemy.gameObject.GetComponent<EnemyAttack>().beingSpitOut = true;
        
 
 
@@ -109,17 +110,7 @@ public class BiteAttack : MonoBehaviour
         }
 
 
-        IEnumerator SpitInvincibility(float waitTime)
-        {
-           while (true)
-            {
-                yield return new WaitForSeconds(waitTime);
-                enemy.gameObject.GetComponent<BoxCollider2D>().enabled = true;
-                yield return null;
-            }
-           
-            
-        }
+       
     
     
     
