@@ -13,16 +13,12 @@ public class BiteAttack : MonoBehaviour
     private Collider2D enemy;
     private bool bellyFull = false;
     private bool hasMorphed = false;
-    public Component patrolScript;
+
 
     private void Awake()
     {
         originalScale = transform.localScale;
         
-        if (bellyFull)
-        {
-            patrolScript = enemy.gameObject.GetComponent<GroundPatrol>();
-        }
     }
 
     void Update()
@@ -52,12 +48,9 @@ public class BiteAttack : MonoBehaviour
         {
             Debug.Log("Spitting out " + enemy);
             bellyFull = false;
-        
-           
             enemy.transform.position = bitePoint.transform.position;
-            enemy.gameObject.SetActive(true);
-            // patrolScript.gameObject.SetActive(true);
-            patrolScript.gameObject.SetActive(false);
+            enemy.gameObject.SetActive(true);     
+            enemy.gameObject.GetComponent<BoxCollider2D>().enabled = false;
             enemy.gameObject.GetComponent<EnemyAttack>().beingSpitOut = true;
        
 
@@ -81,12 +74,11 @@ public class BiteAttack : MonoBehaviour
         if(enemy != null)
         {
             Debug.Log("Hit " + enemy.name);
-        
+            Component patrolScript;
             enemy.gameObject.SetActive(false);
             bellyFull = true;
             patrolScript = enemy.gameObject.GetComponent<GroundPatrol>();
-            
-            patrolScript.gameObject.SetActive(false);
+            Destroy(patrolScript);
         }
     }
     void BiteAttackMorph()
