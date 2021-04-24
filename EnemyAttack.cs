@@ -20,7 +20,7 @@ public class EnemyAttack : MonoBehaviour
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if ((collision.gameObject.name == "Player") && (beingSpitOut != true)) 
         {
             Debug.Log("Player takes " + attackDmg + " damage");
             collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(attackDmg);
