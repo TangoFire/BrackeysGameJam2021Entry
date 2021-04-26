@@ -6,6 +6,8 @@ using UnityEngine;
 public class BiteAttack : MonoBehaviour
 {
     public Transform bitePoint;
+    public int healAmount = 5;
+    public float deathRotationSpeed = 100f;
     public float biteRange = 1f;
     public float spitLaunchSpeed = 100f;
     public LayerMask enemyLayers;
@@ -13,12 +15,13 @@ public class BiteAttack : MonoBehaviour
     private Collider2D enemy;
     private bool bellyFull = false;
     private bool hasMorphed = false;
+    private Component patrolScript;
+    
 
 
     private void Awake()
     {
         originalScale = transform.localScale;
-        
     }
 
     void Update()
@@ -35,8 +38,6 @@ public class BiteAttack : MonoBehaviour
         if (Input.GetMouseButtonDown(1))
         {
             SpitAttack();
-          
-
         }
     }
 
@@ -50,9 +51,10 @@ public class BiteAttack : MonoBehaviour
             bellyFull = false;
             enemy.transform.position = bitePoint.transform.position;
             enemy.gameObject.SetActive(true);     
-            enemy.gameObject.GetComponent<BoxCollider2D>().enabled = false;
-            enemy.gameObject.GetComponent<EnemyAttack>().beingSpitOut = true;
-       
+            
+           
+            enemy.gameObject.GetComponent<EnemyAttack>().enabled = false;
+            enemy.gameObject.transform.eulerAngles = new Vector3(0f, 0f, 180f);
 
 
             if (transform.localScale.x < 0)
@@ -74,8 +76,8 @@ public class BiteAttack : MonoBehaviour
         if(enemy != null)
         {
             Debug.Log("Hit " + enemy.name);
-            Component patrolScript;
             enemy.gameObject.SetActive(false);
+            enemy.gameObject.GetComponent<EnemyAttack>().isEaten = true;
             bellyFull = true;
             patrolScript = enemy.gameObject.GetComponent<GroundPatrol>();
             Destroy(patrolScript);
@@ -92,11 +94,11 @@ public class BiteAttack : MonoBehaviour
         {
             if (hasMorphed != true)
             {
-               
+               //What Morph will do
                 transform.localScale = transform.localScale * 1.2f;
-                
+                GetComponent<PlayerHealth>().HealPlayerHealth(healAmount);
+                Destroy (enemy.gameObject);
                 hasMorphed = true;
-
             }
         }
 
@@ -108,17 +110,7 @@ public class BiteAttack : MonoBehaviour
                 transform.localScale = originalScale;
             }
         }
-
-
-       
-    
-    
-    
     }
-
-
-
-
 
     private void OnDrawGizmosSelected()
     {

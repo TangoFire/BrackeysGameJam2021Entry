@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerHealth : MonoBehaviour
 {
     public int playerHealth = 25;
-
+    public int maxPlayerHealth = 25;
+   
     public void TakeDamage(int attackDmg)
     {
         playerHealth -= attackDmg;
@@ -18,10 +19,20 @@ public class PlayerHealth : MonoBehaviour
         }
     }
 
-    
+    public void HealPlayerHealth(int healAmount)
+    {
+        if (playerHealth < maxPlayerHealth)
+        {
+            playerHealth += healAmount;
+            Debug.Log("Player has healed " + healAmount);
+            Debug.Log(playerHealth);
+        }
+    }
     public void PlayerDeath()
     {
         Destroy(gameObject);
         Debug.Log("Player Dies");
+        Camera.main.transform.parent = null;
+
     }
 }

@@ -5,30 +5,30 @@ using UnityEngine;
 public class EnemyAttack : MonoBehaviour
 {
     public int attackDmg = 5;
-    public bool beingSpitOut = false;
+    public bool isEaten = false;
 
 
-    private void FixedUpdate()
+    private void Update()
     {
-        if (beingSpitOut)
+        if (isEaten)
         {
-            Debug.Log(gameObject.name + " is being Spit Out");
-            gameObject.GetComponent<BoxCollider2D>().enabled = true;
-            beingSpitOut = false;
+            Debug.Log(gameObject + " has had damage set to 0");
+            attackDmg = 0;
         }
-      
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (isEaten != true) 
         {
-            Debug.Log("Player takes " + attackDmg + " damage");
-            collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(attackDmg);
+            if (collision.gameObject.name == "Player")
+            {
+                Debug.Log("Player takes " + attackDmg + " damage");
+                collision.gameObject.GetComponent<PlayerHealth>().TakeDamage(attackDmg);
 
-           
 
+
+            }
         }
-
     }
 
    
