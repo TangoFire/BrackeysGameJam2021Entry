@@ -4,15 +4,28 @@ using UnityEngine;
 
 public class FlyingEnemy : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Rigidbody2D enemyRB;
+    public Transform rayOrigin;
+    public LayerMask terrainLayer;
+    private float raycastDistance = 2f;
+    private float flightSpeed = 10f;
+
+
+    void Awake()
     {
-        
+     enemyRB = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
-    void Update()
+    
+    void FixedUpdate()
     {
-        
+        RaycastHit2D hit = Physics2D.Raycast(rayOrigin.transform.position, -Vector2.up ,raycastDistance);
+
+        if (hit.collider != null)
+        {
+                Debug.Log("Flying Enemy detects " + hit.collider.ToString());
+
+            
+        }
     }
 }

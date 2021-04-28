@@ -16,7 +16,8 @@ public class BiteAttack : MonoBehaviour
     private bool bellyFull = false;
     private bool hasMorphed = false;
     private Component patrolScript;
-    
+
+    private string eatenEnemyType;
 
 
     private void Awake()
@@ -41,6 +42,9 @@ public class BiteAttack : MonoBehaviour
         }
     }
 
+    
+    
+    
     void SpitAttack()
     {
         Debug.Log("Spit");
@@ -51,8 +55,6 @@ public class BiteAttack : MonoBehaviour
             bellyFull = false;
             enemy.transform.position = bitePoint.transform.position;
             enemy.gameObject.SetActive(true);     
-            
-           
             enemy.gameObject.GetComponent<EnemyAttack>().enabled = false;
             enemy.gameObject.transform.eulerAngles = new Vector3(0f, 0f, 180f);
 
@@ -79,10 +81,13 @@ public class BiteAttack : MonoBehaviour
             enemy.gameObject.SetActive(false);
             enemy.gameObject.GetComponent<EnemyAttack>().isEaten = true;
             bellyFull = true;
+            GetEnemyType();
             patrolScript = enemy.gameObject.GetComponent<GroundPatrol>();
             Destroy(patrolScript);
         }
     }
+    
+    
     void BiteAttackMorph()
     {
         if (bellyFull)
@@ -90,6 +95,8 @@ public class BiteAttack : MonoBehaviour
             Debug.Log("Player is full");
         }
 
+    
+        
         if(bellyFull && Input.GetKeyDown(KeyCode.E))
         {
             if (hasMorphed != true)
@@ -109,6 +116,22 @@ public class BiteAttack : MonoBehaviour
             {
                 transform.localScale = originalScale;
             }
+        }
+    }
+    
+    
+    public void GetEnemyType()
+    {
+        if (enemy.gameObject.layer == 20)
+        {
+            Debug.Log("You have eaten a Walker Type Enemy");
+            
+        }
+
+        if (enemy.gameObject.layer == 21)
+        {
+            Debug.Log("You have eaten a Flying Type Enemy");
+            
         }
     }
 

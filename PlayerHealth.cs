@@ -33,6 +33,7 @@ public class PlayerHealth : MonoBehaviour
         Destroy(gameObject);
         Debug.Log("Player Dies");
         Camera.main.transform.parent = null;
+        
 
     }
 }
