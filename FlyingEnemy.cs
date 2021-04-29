@@ -10,7 +10,9 @@ public class FlyingEnemy : MonoBehaviour
     public LayerMask terrainLayer;
     private float raycastDistance = 2f;
     private float flightSpeed = 5f;
-    private Collider2D flightPath;
+    private Transform flightPath;
+    private float flightPathRayCastDistance = 5f;
+    private bool flyingRight;
 
 
 
@@ -21,11 +23,21 @@ public class FlyingEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
-        RaycastHit2D hit = Physics2D.Raycast(rayOrigin.transform.position, -Vector2.up ,raycastDistance, terrainLayer);
+        RaycastHit2D flightPathGroundHit = Physics2D.Raycast(flightPath.position, Vector2.down, flightPathRayCastDistance, terrainLayer);
 
-        if (hit.collider != null)
+        if (flightPathGroundHit)
         {
-                Debug.Log("Flying Enemy detects " + hit.collider.ToString());
+            enemyRB.velocity = Vector2.right * flightSpeed/2;
+            bool flyingRight = true;
+        }
+
+
+
+        RaycastHit2D groundHit = Physics2D.Raycast(rayOrigin.transform.position, -Vector2.up ,raycastDistance, terrainLayer);
+
+        if (groundHit.collider != null)
+        {
+                Debug.Log("Flying Enemy detects " + groundHit.collider.ToString());
 
             Fly();
         }

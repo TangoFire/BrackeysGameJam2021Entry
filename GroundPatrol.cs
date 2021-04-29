@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GroundPatrol : MonoBehaviour
 {
+    public string enemyType = "walkerType";
     public float moveSpeed = 3f;
     public float rayCastDistance = 2f;
     public Rigidbody2D rb;
