@@ -10,9 +10,10 @@ public class FlyingEnemy : MonoBehaviour
     public LayerMask terrainLayer;
     private float raycastDistance = 2f;
     private float flightSpeed = 5f;
-    private Transform flightPath;
+    private float flightLift = 20f;
+    public Transform flightPath;
     private float flightPathRayCastDistance = 5f;
-    private bool flyingRight;
+    private bool flyingRight = true;
 
 
 
@@ -23,12 +24,28 @@ public class FlyingEnemy : MonoBehaviour
 
     void FixedUpdate()
     {
+        Debug.Log(flightSpeed);
+        //enemyRB.AddForce(Vector3.right * flightSpeed);
+
+        enemyRB.velocity = new Vector2(flightSpeed, 0);
+
         RaycastHit2D flightPathGroundHit = Physics2D.Raycast(flightPath.position, Vector2.down, flightPathRayCastDistance, terrainLayer);
 
-        if (flightPathGroundHit)
+        if (flightPathGroundHit.collider == null)
         {
-            enemyRB.velocity = Vector2.right * flightSpeed/2;
-            bool flyingRight = true;
+            if (flyingRight)
+            {
+                
+                Debug.Log("Flying enemy is at right edge");
+                flyingRight = false;
+                flightSpeed = -5f;
+                gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            }
+            
+
+           
+
+           
         }
 
 
@@ -45,7 +62,7 @@ public class FlyingEnemy : MonoBehaviour
 
     void Fly()
     {
-        enemyRB.velocity = Vector2.up * flightSpeed;
+        enemyRB.AddForce(Vector2.up*flightLift);
     }
 
 
