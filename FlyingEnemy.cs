@@ -42,7 +42,13 @@ public class FlyingEnemy : MonoBehaviour
                 gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
             }
             
-
+            else if (flyingRight == false)
+            {
+                Debug.Log("Flying enemy is at the left edge");
+                flyingRight = true;
+                flightSpeed = 5f;
+                gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+            }
            
 
            
