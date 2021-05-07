@@ -30,9 +30,10 @@ public class PlayerHealth : MonoBehaviour
     }
     public void PlayerDeath()
     {
+        Camera.main.transform.parent = null;
         Destroy(gameObject);
         Debug.Log("Player Dies");
-        Camera.main.transform.parent = null;
+      
         
 
     }
