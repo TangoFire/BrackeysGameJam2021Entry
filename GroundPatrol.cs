@@ -7,10 +7,12 @@ public class GroundPatrol : MonoBehaviour
     public string enemyType = "walkerType";
     public float moveSpeed = 3f;
     public float rayCastDistance = 2f;
+    public Transform wallCheckPosition;
     public Rigidbody2D rb;
     private bool movingRight = true;
     public Transform groundDetection;
     public LayerMask terrainLayer;
+    public LayerMask wallLayer;
 
     private void Awake()
     {
@@ -31,8 +33,8 @@ public class GroundPatrol : MonoBehaviour
             if (movingRight)
             {
                 Debug.Log("at Right Edge");
-              
-                gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+
+                FlipGroundImage();
                 moveSpeed = -3;
                 movingRight = false;
             }
@@ -40,11 +42,41 @@ public class GroundPatrol : MonoBehaviour
 
             {
                 Debug.Log("at Left Edge");
-                gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+                FlipGroundImage();
                 moveSpeed = 3;
                 movingRight = true;
             }
         }
 
+        RaycastHit2D wallInfo = Physics2D.Raycast(wallCheckPosition.position, Vector2.right, rayCastDistance, wallLayer);
+
+        if (wallInfo)
+        {
+
+            if (movingRight)
+            {
+                Debug.Log("Hit wall on Right Side");
+
+                FlipGroundImage();
+                moveSpeed = -3;
+                movingRight = false;
+            }
+            else if (movingRight == false)
+
+            {
+                Debug.Log("Hit wall on Left Side");
+                FlipGroundImage();
+                moveSpeed = 3;
+                movingRight = true;
+            }
+        }
     }
+
+    void FlipGroundImage()
+    {
+        gameObject.transform.localScale = new Vector3(gameObject.transform.localScale.x * -1, gameObject.transform.localScale.y, gameObject.transform.localScale.z);
+    }
+
 }
+
+
