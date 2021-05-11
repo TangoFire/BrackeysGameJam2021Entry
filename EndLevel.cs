@@ -11,6 +11,7 @@ public class EndLevel : MonoBehaviour
         if (collision.gameObject.layer == 8)
         { 
             Debug.Log("Level Cleared");
+            //END SCENE 
         }
     }
 
